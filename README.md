@@ -1,50 +1,32 @@
 # Playwright MCP Workshop
 
-A staged, self-paced Playwright course built on **Playwright 1.62**. You upgrade
-the project yourself, stage by stage, by checking out the next branch. Every
-stage works in **OpenCode** and **Claude Code** alike.
+Hands-on Playwright workshop built on **Playwright 1.62**, driven from
+**OpenCode** or **VS Code + Claude Code**.
 
 App under test: **https://playwright-workshop.pages.dev** - a SauceDemo-style
-store (no local server to run). Elements are tagged with `data-test`;
-`playwright.config.ts` maps `getByTestId()` to it.
+store (no local server to run).
 
-## The branch ladder
+## Before the workshop
 
-Each stage has an **exercise** branch (your starting point) and a **solution**
-branch (a verified, working answer). Each exercise branch builds on the
-previous stage's solution, so you can always fast-forward.
+Please complete this setup in advance so we can start on time.
 
-| Stage | Exercise branch | Solution branch | You learn |
-|---|---|---|---|
-| 0 | `main` | - | Project baseline: config, specs, fixtures |
-| 1 | `01-pw-architecture` | `01-pw-architecture-solution` | Playwright architecture: runner, projects, fixtures, trace, storage state |
-| 2 | `02-pw-mcp` | `02-pw-mcp-solution` | The Playwright MCP server: drive a live browser from your agent |
-| 3 | `03-mcp-skills` | `03-mcp-skills-solution` | Skills: teach the agent your house style, refactor with it |
-| 4 | `04-pw-agents` | `04-pw-agents-solution` | Test Agents: planner → generator → healer |
-| 5 | `05-pw-cli` | `05-pw-cli-solution` | The Playwright CLI for agents and terminals |
-| 6 | `06-langgraph-jira` | `06-langgraph-jira-solution` | Finale: a LangGraph pipeline - Jira ticket → plan → generated specs (+ self-heal) |
+### Prerequisites
 
-Work a stage like this:
+- **Node.js 20+** and npm (see `.nvmrc`)
+- One agentic client:
+  - **OpenCode**: `npm i -g opencode-ai` (or `brew install sst/tap/opencode`)
+  - or **VS Code + Claude Code** extension (`anthropic.claude-code`)
+- An API key / login for your client
 
-```bash
-git checkout 02-pw-mcp          # start the stage
-cat exercises/02-*.md           # the exercise sheet
-# ... do the work ...
-git checkout 02-pw-mcp-solution # compare with a working answer
-git checkout 03-mcp-skills      # move on (includes the stage-2 solution)
-```
-
-## Setup (once)
-
-- **Node.js 20+** (see `.nvmrc`)
-- One agentic client: **OpenCode** (`npm i -g opencode-ai`) or **VS Code +
-  Claude Code** (`anthropic.claude-code` extension)
+### Setup
 
 ```bash
 npm install
 npm run install:browsers
-npm test          # the baseline suite - all green on main
+npm test
 ```
+
+`npm test` should finish with **5 passed**. If it does, you are ready.
 
 ## Test accounts
 
@@ -67,5 +49,4 @@ npm run report        # open the last HTML report
 npm run typecheck     # strict TypeScript check
 ```
 
-Slides for the architecture stage live outside this repo; everything hands-on
-lives here, one branch per stage.
+See you at the workshop.
