@@ -16,7 +16,6 @@ Please complete this setup in advance so we can start on time.
 - One agentic client:
   - **OpenCode**: `npm i -g opencode-ai` (or `brew install sst/tap/opencode`)
   - or **VS Code + Claude Code** extension (`anthropic.claude-code`)
-- An API key / login for your client
 
 ### Setup
 
