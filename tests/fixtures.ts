@@ -1,4 +1,22 @@
 import { test as base, expect } from '@playwright/test';
+import { createApp, type App } from '../src/app';
+import * as loginActions from '../src/actions/login';
+import * as cartActions from '../src/actions/cart';
+
+export interface ShopActor {
+  login: (username?: string, password?: string) => Promise<void>;
+  addToCart: (productName: string) => Promise<void>;
+  openCart: () => Promise<void>;
+}
+
+export interface VerifyActor {
+  onInventory: () => Promise<void>;
+  itemAdded: (productName: string) => Promise<void>;
+  cartBadge: (count: number | string) => Promise<void>;
+  onCart: () => Promise<void>;
+  itemInCart: (productName: string) => Promise<void>;
+  checkoutAvailable: () => Promise<void>;
+}
 
 /**
  * Network evidence fixture - a working example of Playwright's fixture
@@ -20,7 +38,35 @@ import { test as base, expect } from '@playwright/test';
 /** Hard cap so a redirect loop or a hammering retry can't grow the log unbounded. */
 const MAX_ENTRIES = 100;
 
-export const test = base.extend<{ _networkEvidence: void }>({
+export const test = base.extend<{
+  _networkEvidence: void;
+  app: App;
+  shop: ShopActor;
+  verify: VerifyActor;
+}>({
+  app: async ({ page, request }, use) => {
+    await use(createApp(page, request));
+  },
+
+  shop: async ({ app }, use) => {
+    await use({
+      login: (username, password) => loginActions.login(app, username, password),
+      addToCart: (productName) => cartActions.addToCart(app, productName),
+      openCart: () => cartActions.openCart(app),
+    });
+  },
+
+  verify: async ({ app }, use) => {
+    await use({
+      onInventory: () => loginActions.onInventory(app),
+      itemAdded: (productName) => cartActions.itemAdded(app, productName),
+      cartBadge: (count) => cartActions.cartBadge(app, count),
+      onCart: () => cartActions.onCart(app),
+      itemInCart: (productName) => cartActions.itemInCart(app, productName),
+      checkoutAvailable: () => cartActions.checkoutAvailable(app),
+    });
+  },
+
   _networkEvidence: [
     async ({ page, baseURL }, use, testInfo) => {
       const entries: string[] = [];
@@ -64,3 +110,4 @@ export const test = base.extend<{ _networkEvidence: void }>({
 });
 
 export { expect };
+
