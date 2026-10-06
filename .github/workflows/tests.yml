@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm install --no-package-lock
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test tests/checkout/single-item-order.spec.ts
       - uses: actions/upload-artifact@v4
